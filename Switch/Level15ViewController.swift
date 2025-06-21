@@ -11,9 +11,10 @@ class Level15ViewController: UIViewController {
     private var audioPlayer: AVAudioPlayer?
     private var reactionTimer: Timer? // Timer for player reaction
     private var timeRemaining: TimeInterval = 0.0
-    private let initialTimeLimit: TimeInterval = 1 // Decreased initial time to react
-    private let timeDecrementPerLevel: TimeInterval = 0.1 // Increased time decrement per level
+    private let initialTimeLimit: TimeInterval = 1.5 // Фиксированное время реакции для уровня 15
+    private let timeDecrementPerLevel: TimeInterval = 0.1 // Не используется в Level15 (время фиксированное)
     private let successfulTapsPerLevel: Int = 5 // How many successful taps to advance
+    private let maxScore: Int = 20 // Максимальный счет для завершения уровня 15
     
     private var levelLabel: UILabel!
     private var instructionsLabel: UILabel!
@@ -42,7 +43,15 @@ class Level15ViewController: UIViewController {
         setupCloseButton()
         setupUI()
         prepareAudioPlayer()
-        //resetSwitches()
+        startLevel() // Запускаем игру автоматически
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        // Дополнительная проверка на случай, если игра не запустилась в viewDidLoad
+        if reactionTimer == nil && activeLightButtonTag == nil {
+            startLevel()
+        }
     }
     
     // MARK: - UI Setup
@@ -175,9 +184,8 @@ class Level15ViewController: UIViewController {
         // Stop any existing timer
         reactionTimer?.invalidate()
         
-        // Determine time limit for this level
-        let timeLimitForLevel = max(0.5, initialTimeLimit - TimeInterval(currentLevel - 1) * timeDecrementPerLevel)
-        timeRemaining = timeLimitForLevel
+        // Фиксированное время реакции 1.5 секунды для уровня 15 (не уменьшается с подуровнями)
+        timeRemaining = initialTimeLimit
         updateTimerLabel()
         
         // Randomly select a button to light up
@@ -205,6 +213,7 @@ class Level15ViewController: UIViewController {
         if sender.tag == activeLightButtonTag {
             score += 1
             updateScoreLabel()
+            updateProgress() // Обновляем прогресс после каждого попадания
             animateButtonPress(button: sender, color: .systemGreen) { [weak self] in
                 guard let self = self else { return }
                 self.disableAllButtons() // Disable all buttons to prevent multiple taps
@@ -212,8 +221,7 @@ class Level15ViewController: UIViewController {
                 if self.score % self.successfulTapsPerLevel == 0 && self.score != 0 {
                     self.currentLevel += 1
                     self.updateLevelLabel()
-                    self.updateProgress()
-                    if self.score >= 20 { // Game completed after 20 points
+                    if self.score >= self.maxScore { // Game completed after reaching max score
                         self.showGameCompletedAlert()
                     } else {
                         self.startNewRound()
@@ -236,13 +244,18 @@ class Level15ViewController: UIViewController {
         reactionTimer?.invalidate()
         score = 0 // Reset score on failure
         updateScoreLabel()
+        updateProgress() // Обновляем прогресс после сброса счета
         
         // Briefly show correct button if player tapped wrong or timed out
         if let activeTag = activeLightButtonTag, let correctButton = gridButtons.first(where: { $0.tag == activeTag }) {
             highlightButton(tag: correctButton.tag, color: .systemOrange) // Quick flash of correct button
         }
         
-        self.startLevel() // Restart level on failure
+        // Небольшая задержка перед перезапуском, чтобы игрок увидел правильную кнопку
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+            self.instructionsLabel.text = "Нажмите на подсвеченную кнопку!"
+            self.startLevel() // Restart level on failure
+        }
     }
     
     private func showGameCompletedAlert() {
@@ -335,8 +348,8 @@ class Level15ViewController: UIViewController {
     }
     
     private func updateProgress() {
-        let totalTapsNeeded = successfulTapsPerLevel // For simplicity, progress based on current round taps
-        let progress = Float(score % successfulTapsPerLevel) / Float(totalTapsNeeded)
+        // Прогресс основан на общем количестве очков от 0 до maxScore
+        let progress = Float(score) / Float(maxScore)
         UIView.animate(withDuration: 0.3) {
             self.progressView.progress = progress
         }

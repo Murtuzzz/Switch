@@ -66,6 +66,15 @@ class MemoryModeViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAllSounds()
+    }
+    
+    deinit {
+        stopAllSounds()
+    }
+    
     private func setupUI() {
         view.addSubview(containerView)
         
@@ -1040,6 +1049,9 @@ class MemoryModeViewController: UIViewController {
     }
     
     @objc private func closeButtonTapped() {
+        // Останавливаем все звуки
+        stopAllSounds()
+        
         // Добавляем haptic feedback
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
@@ -1059,6 +1071,12 @@ class MemoryModeViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    private func stopAllSounds() {
+        // Останавливаем audioPlayer
+        audioPlayer?.stop()
+        audioPlayer = nil
     }
 }
  

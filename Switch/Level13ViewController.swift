@@ -31,7 +31,7 @@ class Level13ViewController: UIViewController {
         setupCloseButton()
         setupUI()
         prepareAudioPlayer()
-        //resetSwitches()
+        startNewLevel()
     }
     
     private func setupUI() {
@@ -129,6 +129,7 @@ class Level13ViewController: UIViewController {
             button.layer.shadowRadius = 4
             button.addTarget(self, action: #selector(lightButtonTapped), for: .touchUpInside)
             button.translatesAutoresizingMaskIntoConstraints = false
+            button.isEnabled = false // Изначально отключены
             buttonsStack.addArrangedSubview(button)
             lightButtons.append(button)
         }
@@ -203,6 +204,9 @@ class Level13ViewController: UIViewController {
     }
     
     @objc private func lightButtonTapped(_ sender: UIButton) {
+        // Дополнительная проверка, что кнопки включены и sequence не пуст
+        guard !sequence.isEmpty && sender.isEnabled else { return }
+        
         playSound()
         
         // Те же цвета, что и при демонстрации
@@ -229,8 +233,18 @@ class Level13ViewController: UIViewController {
     }
     
     private func checkPlayerInput() {
+        // Проверяем, что sequence не пуст и индекс не выходит за границы
+        guard !sequence.isEmpty, playerSequence.count <= sequence.count else {
+            instructionsLabel.text = "Неверно! Попробуйте снова."
+            disableButtons()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+                self.resetLevel()
+            }
+            return
+        }
+        
         for i in 0..<playerSequence.count {
-            if playerSequence[i] != sequence[i] {
+            if i >= sequence.count || playerSequence[i] != sequence[i] {
                 instructionsLabel.text = "Неверно! Попробуйте снова."
                 updateCircleIndicators(isCorrect: false, at: i)
                 disableButtons()

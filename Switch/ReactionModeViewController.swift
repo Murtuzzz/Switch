@@ -56,8 +56,14 @@ class ReactionModeViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAllSounds()
+    }
+    
     deinit {
         reactionTimer?.invalidate()
+        stopAllSounds()
         NotificationCenter.default.removeObserver(self)
     }
     
@@ -791,6 +797,9 @@ class ReactionModeViewController: UIViewController {
     
     // MARK: - Actions
     @objc private func closeButtonTapped() {
+        // Останавливаем все звуки
+        stopAllSounds()
+        
         // Добавляем haptic feedback
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
@@ -820,6 +829,16 @@ class ReactionModeViewController: UIViewController {
     
     private func playSound() {
         audioPlayer?.play()
+    }
+    
+    private func stopAllSounds() {
+        // Останавливаем audioPlayer
+        audioPlayer?.stop()
+        audioPlayer = nil
+        
+        // Останавливаем таймер
+        reactionTimer?.invalidate()
+        reactionTimer = nil
     }
     
     private func setupCloseButton() {

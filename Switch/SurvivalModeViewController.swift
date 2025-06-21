@@ -87,6 +87,15 @@ class SurvivalModeViewController: UIViewController {
         }
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        stopAllSounds()
+    }
+    
+    deinit {
+        stopAllSounds()
+    }
+    
     // MARK: - Dynamic Background Setup
     private func setupDynamicBackground() {
         // Сначала применяем базовый фон из настроек
@@ -748,9 +757,9 @@ class SurvivalModeViewController: UIViewController {
         backgroundGradient?.frame = view.bounds
     }
     
-    deinit {
-        timer?.invalidate()
-    }
+//    deinit {
+//        timer?.invalidate()
+//    }
     
     // MARK: - Instructions
     private func showInstructionsAlert() {
@@ -1047,6 +1056,9 @@ class SurvivalModeViewController: UIViewController {
     }
     
     @objc private func closeButtonTapped() {
+        // Останавливаем все звуки
+        stopAllSounds()
+        
         // Добавляем haptic feedback
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
@@ -1066,6 +1078,12 @@ class SurvivalModeViewController: UIViewController {
                 self.dismiss(animated: true, completion: nil)
             }
         }
+    }
+    
+    private func stopAllSounds() {
+        // Останавливаем audioPlayer
+        audioPlayer?.stop()
+        audioPlayer = nil
     }
 } 
  
