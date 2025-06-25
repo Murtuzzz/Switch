@@ -1,0 +1,155 @@
+/* 
+ Localizable.strings
+ Switch
+ Spanish
+*/
+
+// MARK: - Main Screen
+"app_subtitle" = "Rompecabezas Lógico";
+"button_start_game" = "🎮 Comenzar Juego";
+"button_survival_mode" = "⚡ Modo Lógica";
+"button_memory_mode" = "🧠 Modo Memoria";
+"button_reaction_mode" = "🚀 Modo Reacción";
+
+// MARK: - Game Modes
+"mode_survival" = "Supervivencia";
+"mode_memory" = "Memoria";
+"mode_reaction" = "Reacción";
+"mode_sequence" = "Secuencia";
+"mode_pattern" = "Patrón";
+
+// MARK: - Level Indicators
+"level" = "Nivel";
+"level_number" = "Nivel %d";
+"level_survival" = "Supervivencia - Nivel %d";
+"level_logic" = "Lógica - Nivel %d";
+"level_reaction" = "Reacción - Nivel %d";
+
+// MARK: - Game Stats
+"score" = "Puntuación: %d";
+"time" = "Tiempo: %d";
+"time_seconds" = "Tiempo: %.2f";
+"time_placeholder" = "Tiempo: --.--";
+"record" = "Récord: %d";
+"best_score" = "Mejor Puntuación: %d";
+"set_first_record" = "¡Establece tu primer récord!";
+
+// MARK: - Settings
+"settings_title" = "Configuración";
+"switch_color_title" = "Color del Interruptor";
+"switch_color_subtitle" = "Elige el color para los interruptores";
+"sound_title" = "Sonido del Interruptor";
+"sound_subtitle" = "Efecto de sonido al tocar";
+"sound_classic" = "Clásico";
+"sound_electronic" = "Electrónico";
+"sound_crunch" = "Crujido";
+"sound_none" = "Sin Sonido";
+"background_title" = "Fondo del Nivel";
+"background_subtitle" = "Estilo de fondo para pantallas de juego";
+"background_light" = "Claro";
+"background_dark" = "Oscuro";
+"background_gradient" = "Degradado";
+"background_system" = "Sistema";
+"preview_title" = "Vista Previa";
+"preview_subtitle" = "Verificar configuración del interruptor";
+
+// MARK: - High Scores
+"high_scores_title" = "Récords";
+"high_scores_subtitle" = "Tus mejores resultados";
+"no_records_survival" = "Aún no hay récords en modo supervivencia";
+"no_records_memory" = "Aún no hay récords en modo memoria";
+"no_records_reaction" = "Aún no hay récords en modo reacción";
+"no_records_general" = "Aún no hay récords";
+"empty_records_message" = "¡Juega este modo para establecer un récord!";
+"points" = "puntos";
+
+// MARK: - Game Instructions
+"goal_title" = "Objetivo";
+"rules_title" = "Reglas";
+"warning_title" = "Advertencia";
+"tip_title" = "Consejo";
+"button_start" = "Comenzar Juego";
+"button_back" = "Atrás";
+
+// MARK: - Survival Mode
+"survival_mode_title" = "Modo Lógica";
+"survival_goal" = "¡Establece la combinación correcta de interruptores!";
+"survival_rules" = "• Los círculos rojos muestran las posiciones objetivo\n• Configura los interruptores en la posición correcta\n• Tienes 30 segundos por nivel\n• La dificultad aumenta con cada nivel";
+"survival_warning" = "¡El tiempo es limitado! Resuelve el rompecabezas lógico a tiempo";
+"survival_tip" = "¡Piensa rápido y lógicamente!";
+
+// MARK: - Memory Mode
+"memory_mode_title" = "Modo Memoria";
+"memory_mode_subtitle" = "Modo Memoria - juego infinito";
+"memory_goal" = "¡Recuerda y repite la secuencia!";
+"memory_rules" = "• Recuerda la secuencia de botones iluminados\n• Repítela en el mismo orden\n• Cada nivel agrega un nuevo botón\n• Elige modo: Secuencia (4 botones) o Patrón (9 botones)";
+"memory_warning" = "Un error = fin del juego";
+"memory_tip" = "¡Entrena tu memoria visual y concentración!";
+
+// MARK: - Reaction Mode
+"reaction_mode_title" = "Modo Reacción";
+"reaction_goal" = "¡Toca rápidamente el botón iluminado!";
+"reaction_rules" = "• El botón azul se ilumina aleatoriamente\n• Tócalo antes de que se acabe el tiempo\n• El tiempo disminuye con cada nivel\n• 7 respuestas correctas = nuevo nivel";
+"reaction_warning" = "Un error o falla = fin del juego";
+"reaction_tip" = "¡Sé atento y rápido!";
+
+// MARK: - Game Instructions
+"instructions_remember_sequence" = "Recuerda la secuencia";
+"instructions_remember_pattern" = "Recuerda el patrón";
+"instructions_remember_with_level" = "¡Recuerda la %@!\nNivel %d";
+"instructions_your_turn" = "¡Tu turno!";
+"instructions_repeat_sequence" = "¡Tu turno! Repite la secuencia";
+"instructions_tap_button" = "¡Toca el botón iluminado!";
+"instructions_waiting" = "Esperando instrucciones...";
+
+// MARK: - Game Feedback
+"correct" = "¡Correcto!";
+"incorrect" = "¡Incorrecto! Inténtalo de nuevo.";
+"incorrect_reaction" = "¡Incorrecto! El botón correcto está resaltado en naranja";
+"try_again" = "¡Inténtalo de nuevo!";
+"not_bad" = "¡No está mal para empezar!";
+"excellent_reaction" = "¡Excelente reacción!";
+"incredible_speed" = "¡Velocidad increíble!";
+"combo" = "¡COMBO x%d!";
+"level_up" = "¡NIVEL %d!";
+"excellent_points" = "¡Excelente! +%d puntos";
+
+// MARK: - Game Over
+"game_over_title" = "Juego Terminado";
+"game_over_score" = "Tu puntuación: %d";
+"game_over_memory_mode_result" = "Nivel: %d\nPuntuación: %d\n\n¡Puedes estar orgulloso de tu memoria!";
+"reaction_mode_results" = "📊 Resultados:\n• Nivel: %d\n• Puntuación: %d\n• Récord: %d\n\n%@";
+"game_over_completed" = "¡Completaste los 15 niveles de Switch!\n\nTu puntuación final: %d";
+"button_new_game" = "Nuevo Juego";
+"button_play_again" = "Jugar de Nuevo";
+"button_main_menu" = "Menú Principal";
+"button_show_instructions" = "Mostrar Instrucciones";
+"button_restart" = "Empezar de Nuevo";
+
+// MARK: - Level Instructions
+"remember_sequence_level" = "¡Recuerda la secuencia!\nNivel %d";
+"remember_pattern_level" = "¡Recuerda el patrón!\nNivel %d";
+
+// MARK: - Color Game
+"target_color" = "Objetivo";
+"your_color" = "Tu Color";
+
+// MARK: - Launch Screen
+"launch_turn_on_sound" = "Activar sonido";
+
+// MARK: - Level Labels
+"level_1" = "Nivel 1";
+"level_2" = "Nivel 2";
+"level_3" = "Nivel 3";
+"level_4" = "Nivel 4";
+"level_5" = "Nivel 5";
+"level_6" = "Nivel 6";
+"level_7" = "Nivel 7";
+"level_8" = "Nivel 8";
+"level_9" = "Nivel 9";
+"level_10" = "Nivel 10";
+"level_11" = "Nivel 11";
+"level_12" = "Nivel 12";
+"level_13" = "Nivel 13";
+"level_14" = "Nivel 14";
+"level_15" = "Nivel 15"; 

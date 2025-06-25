@@ -69,14 +69,14 @@ class Level15ViewController: UIViewController {
         
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 15"
+        levelLabel.text = LocalizationManager.Levels.level15.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)
         
         instructionsLabel = UILabel()
         instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        instructionsLabel.text = "Нажмите на подсвеченную кнопку!"
+        instructionsLabel.text = LocalizationManager.GameMessages.tapButton.localized
         instructionsLabel.font = .systemFont(ofSize: 18, weight: .medium)
         instructionsLabel.textColor = .label
         instructionsLabel.textAlignment = .center
@@ -85,14 +85,14 @@ class Level15ViewController: UIViewController {
         
         scoreLabel = UILabel()
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.text = "Счет: 0"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: 0)
         scoreLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         scoreLabel.textColor = .label
         view.addSubview(scoreLabel)
         
         timerLabel = UILabel()
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
-        timerLabel.text = "Время: --.--"
+        timerLabel.text = LocalizationManager.Stats.timePlaceholder.localized
         timerLabel.font = .systemFont(ofSize: 20, weight: .semibold)
         timerLabel.textColor = .label
         view.addSubview(timerLabel)
@@ -239,7 +239,7 @@ class Level15ViewController: UIViewController {
     }
     
     private func roundFailed() {
-        instructionsLabel.text = "Неверно! Попробуйте снова."
+                    instructionsLabel.text = LocalizationManager.GameMessages.incorrect.localized
         disableAllButtons()
         reactionTimer?.invalidate()
         score = 0 // Reset score on failure
@@ -253,23 +253,23 @@ class Level15ViewController: UIViewController {
         
         // Небольшая задержка перед перезапуском, чтобы игрок увидел правильную кнопку
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
-            self.instructionsLabel.text = "Нажмите на подсвеченную кнопку!"
+            self.instructionsLabel.text = LocalizationManager.GameMessages.tapButton.localized
             self.startLevel() // Restart level on failure
         }
     }
     
     private func showGameCompletedAlert() {
         let alert = UIAlertController(
-            title: "🎉 Поздравляем!",
-            message: "Вы прошли все 15 уровней игры Switch!\n\nВаш итоговый счет: \(score)",
+            title: "🎉 " + LocalizationManager.GameOver.title.localized,
+            message: LocalizationManager.GameOver.completed.localized(with: score),
             preferredStyle: .alert
         )
         
-        let mainMenuAction = UIAlertAction(title: "Главное меню", style: .default) { [weak self] _ in
+        let mainMenuAction = UIAlertAction(title: LocalizationManager.GameOver.mainMenu.localized, style: .default) { [weak self] _ in
             self?.returnToMainMenu()
         }
         
-        let restartAction = UIAlertAction(title: "Начать заново", style: .default) { [weak self] _ in
+        let restartAction = UIAlertAction(title: LocalizationManager.GameOver.restart.localized, style: .default) { [weak self] _ in
             self?.restartGame()
         }
         
@@ -336,15 +336,15 @@ class Level15ViewController: UIViewController {
     }
     
     private func updateLevelLabel() {
-        levelLabel.text = "Уровень 15"
+        levelLabel.text = LocalizationManager.Levels.level15.localized
     }
     
     private func updateScoreLabel() {
-        scoreLabel.text = "Счет: \(score)"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: score)
     }
     
     private func updateTimerLabel() {
-        timerLabel.text = String(format: "Время: %.2f", max(0, timeRemaining))
+        timerLabel.text = LocalizationManager.Stats.timeSeconds.localized(with: max(0, timeRemaining))
     }
     
     private func updateProgress() {

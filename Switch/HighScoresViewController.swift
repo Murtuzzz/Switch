@@ -8,9 +8,9 @@ enum GameMode: Int, CaseIterable {
     
     var title: String {
         switch self {
-        case .survival: return "Выживание"
-        case .memory: return "Память"
-        case .reaction: return "Реакция"
+        case .survival: return LocalizationManager.GameModes.survival.localized
+        case .memory: return LocalizationManager.GameModes.memory.localized
+        case .reaction: return LocalizationManager.GameModes.reaction.localized
         }
     }
     
@@ -32,9 +32,9 @@ enum GameMode: Int, CaseIterable {
     
     var emptyMessage: String {
         switch self {
-        case .survival: return "Пока нет рекордов в режиме выживания"
-        case .memory: return "Пока нет рекордов в режиме памяти"
-        case .reaction: return "Пока нет рекордов в режиме реакции"
+        case .survival: return LocalizationManager.HighScores.noRecordsSurvival.localized
+        case .memory: return LocalizationManager.HighScores.noRecordsMemory.localized
+        case .reaction: return LocalizationManager.HighScores.noRecordsReaction.localized
         }
     }
 }
@@ -65,7 +65,7 @@ class HighScoresViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Рекорды"
+        label.text = LocalizationManager.HighScores.title.localized
         label.font = .systemFont(ofSize: 32, weight: .black)
         label.textColor = .label
         label.textAlignment = .center
@@ -75,7 +75,7 @@ class HighScoresViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Ваши лучшие результаты"
+        label.text = LocalizationManager.HighScores.subtitle.localized
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .secondaryLabel
         label.textAlignment = .center
@@ -188,7 +188,7 @@ class HighScoresViewController: UIViewController {
         label.font = .systemFont(ofSize: 20, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center
-        label.text = "Пока нет рекордов"
+        label.text = LocalizationManager.HighScores.noRecordsGeneral.localized
         return label
     }()
     
@@ -355,9 +355,9 @@ class HighScoresViewController: UIViewController {
         // Обновляем информацию о лучшем результате
         let bestScore = UserDefaults.standard.integer(forKey: currentMode.highScoreKey)
         if bestScore > 0 {
-            bestScoreLabel.text = "Лучший результат: \(bestScore)"
+            bestScoreLabel.text = LocalizationManager.Stats.bestScore.localized(with: bestScore)
         } else {
-            bestScoreLabel.text = "Поставьте свой первый рекорд!"
+            bestScoreLabel.text = LocalizationManager.Stats.setFirstRecord.localized
         }
         
         // Показываем/скрываем empty state
@@ -366,7 +366,7 @@ class HighScoresViewController: UIViewController {
         tableView.isHidden = isEmpty
         
         if isEmpty {
-            emptyStateSubtitleLabel.text = currentMode.emptyMessage + "\nСыграйте в этот режим, чтобы установить рекорд!"
+            emptyStateSubtitleLabel.text = currentMode.emptyMessage + "\n" + LocalizationManager.HighScores.emptyRecordsMessage.localized
         }
         
         tableView.reloadData()
@@ -486,7 +486,7 @@ class ModernHighScoreCell: UITableViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.font = .systemFont(ofSize: 14, weight: .medium)
         label.textColor = .secondaryLabel
-        label.text = "очков"
+        label.text = LocalizationManager.HighScores.points.localized
         label.textAlignment = .right
         return label
     }()

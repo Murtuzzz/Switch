@@ -19,7 +19,7 @@ class SettingsViewController: UIViewController {
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Настройки"
+        label.text = LocalizationManager.Settings.title.localized
         label.font = .systemFont(ofSize: 34, weight: .bold)
         label.textColor = .label
         label.textAlignment = .left
@@ -79,7 +79,7 @@ class SettingsViewController: UIViewController {
     private let switchColorLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Цвет переключателей"
+        label.text = LocalizationManager.Settings.switchColorTitle.localized
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .label
         return label
@@ -88,7 +88,7 @@ class SettingsViewController: UIViewController {
     private let switchColorSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Выберите цвет для переключателей"
+        label.text = LocalizationManager.Settings.switchColorSubtitle.localized
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         return label
@@ -110,7 +110,7 @@ class SettingsViewController: UIViewController {
     private let soundLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Звук переключения"
+        label.text = LocalizationManager.Settings.soundTitle.localized
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .label
         return label
@@ -119,14 +119,19 @@ class SettingsViewController: UIViewController {
     private let soundSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Звуковой эффект при нажатии"
+        label.text = LocalizationManager.Settings.soundSubtitle.localized
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         return label
     }()
     
     private let soundSegmentedControl: UISegmentedControl = {
-        let items = ["Классический", "Электронный", "Хруст", "Без звука"]
+        let items = [
+            LocalizationManager.Settings.soundClassic.localized,
+            LocalizationManager.Settings.soundElectronic.localized,
+            LocalizationManager.Settings.soundCrunch.localized,
+            LocalizationManager.Settings.soundNone.localized
+        ]
         let control = UISegmentedControl(items: items)
         control.translatesAutoresizingMaskIntoConstraints = false
         control.selectedSegmentIndex = 0
@@ -137,7 +142,7 @@ class SettingsViewController: UIViewController {
     private let backgroundLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Фон уровней"
+        label.text = LocalizationManager.Settings.backgroundTitle.localized
         label.font = .systemFont(ofSize: 20, weight: .semibold)
         label.textColor = .label
         return label
@@ -146,14 +151,19 @@ class SettingsViewController: UIViewController {
     private let backgroundSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Стиль фона для игровых экранов"
+        label.text = LocalizationManager.Settings.backgroundSubtitle.localized
         label.font = .systemFont(ofSize: 14, weight: .regular)
         label.textColor = .secondaryLabel
         return label
     }()
     
     private let backgroundSegmentedControl: UISegmentedControl = {
-        let items = ["Светлый", "Темный", "Градиент", "Системный"]
+        let items = [
+            LocalizationManager.Settings.backgroundLight.localized,
+            LocalizationManager.Settings.backgroundDark.localized,
+            LocalizationManager.Settings.backgroundGradient.localized,
+            LocalizationManager.Settings.backgroundSystem.localized
+        ]
         let control = UISegmentedControl(items: items)
         control.translatesAutoresizingMaskIntoConstraints = false
         control.selectedSegmentIndex = 0
@@ -164,7 +174,7 @@ class SettingsViewController: UIViewController {
     private let previewLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Предпросмотр"
+        label.text = LocalizationManager.Settings.previewTitle.localized
         label.font = .systemFont(ofSize: 22, weight: .bold)
         label.textColor = .label
         label.textAlignment = .center
@@ -174,7 +184,7 @@ class SettingsViewController: UIViewController {
     private let previewSubtitle: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Проверьте настройки переключателя"
+        label.text = LocalizationManager.Settings.previewSubtitle.localized
         label.font = .systemFont(ofSize: 16, weight: .medium)
         label.textColor = .secondaryLabel
         label.textAlignment = .center

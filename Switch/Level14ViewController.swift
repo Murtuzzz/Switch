@@ -48,14 +48,14 @@ class Level14ViewController: UIViewController {
         
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 14"
+        levelLabel.text = LocalizationManager.Levels.level14.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)
         
         instructionsLabel = UILabel()
         instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        instructionsLabel.text = "Запомните паттерн"
+        instructionsLabel.text = LocalizationManager.GameMessages.rememberPattern.localized
         instructionsLabel.font = .systemFont(ofSize: 18, weight: .medium)
         instructionsLabel.textColor = .label
         instructionsLabel.textAlignment = .center
@@ -150,7 +150,7 @@ class Level14ViewController: UIViewController {
     }
     
     private func startNewLevel() {
-        instructionsLabel.text = "Запомните паттерн!\nУровень \(currentLevel)"
+        instructionsLabel.text = LocalizationManager.LevelInstructions.rememberPatternLevel.localized(with: currentLevel)
         playerPattern = []
         pattern = generatePattern(length: currentLevel + 2)
         disableButtons()
@@ -180,7 +180,7 @@ class Level14ViewController: UIViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay + 0.5) {
-            self.instructionsLabel.text = "Ваш ход!"
+            self.instructionsLabel.text = LocalizationManager.GameMessages.yourTurn.localized
             self.enableButtons()
         }
     }
@@ -245,7 +245,7 @@ class Level14ViewController: UIViewController {
     private func checkPlayerInput() {
         for i in 0..<playerPattern.count {
             if playerPattern[i] != pattern[i] {
-                instructionsLabel.text = "Неверно! Попробуйте снова."
+                instructionsLabel.text = LocalizationManager.GameMessages.incorrect.localized
                 updateCircleIndicators(isCorrect: false, at: i)
                 disableButtons()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -258,7 +258,7 @@ class Level14ViewController: UIViewController {
         updateCircleIndicators(isCorrect: true, at: playerPattern.count - 1)
         
         if playerPattern.count == pattern.count {
-            instructionsLabel.text = "Верно!"
+            instructionsLabel.text = LocalizationManager.GameMessages.correct.localized
             disableButtons()
             currentLevel += 1
             updateProgress()
@@ -306,7 +306,7 @@ class Level14ViewController: UIViewController {
         pattern = []
         patternButtons.forEach { $0.backgroundColor = .lightGray }
         circleIndicators.forEach { $0.backgroundColor = .systemRed }
-        instructionsLabel.text = "Запомните паттерн!\nУровень \(currentLevel)"
+        instructionsLabel.text = LocalizationManager.LevelInstructions.rememberPatternLevel.localized(with: currentLevel)
         updateProgress()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.startNewLevel()

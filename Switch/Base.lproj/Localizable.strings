@@ -1,0 +1,155 @@
+/* 
+ Localizable.strings
+ Switch
+ English (Base)
+*/
+
+// MARK: - Main Screen
+"app_subtitle" = "Logic Puzzle";
+"button_start_game" = "🎮 Start Game";
+"button_survival_mode" = "⚡ Logic Mode";
+"button_memory_mode" = "🧠 Memory Mode";
+"button_reaction_mode" = "🚀 Reaction Mode";
+
+// MARK: - Game Modes
+"mode_survival" = "Survival";
+"mode_memory" = "Memory";
+"mode_reaction" = "Reaction";
+"mode_sequence" = "Sequence";
+"mode_pattern" = "Pattern";
+
+// MARK: - Level Indicators
+"level" = "Level";
+"level_number" = "Level %d";
+"level_survival" = "Survival - Level %d";
+"level_logic" = "Logic - Level %d";
+"level_reaction" = "Reaction - Level %d";
+
+// MARK: - Game Stats
+"score" = "Score: %d";
+"time" = "Time: %d";
+"time_seconds" = "Time: %.2f";
+"time_placeholder" = "Time: --.--";
+"record" = "Record: %d";
+"best_score" = "Best Score: %d";
+"set_first_record" = "Set your first record!";
+
+// MARK: - Settings
+"settings_title" = "Settings";
+"switch_color_title" = "Switch Color";
+"switch_color_subtitle" = "Choose color for switches";
+"sound_title" = "Switch Sound";
+"sound_subtitle" = "Sound effect when tapping";
+"sound_classic" = "Classic";
+"sound_electronic" = "Electronic";
+"sound_crunch" = "Crunch";
+"sound_none" = "No Sound";
+"background_title" = "Level Background";
+"background_subtitle" = "Background style for game screens";
+"background_light" = "Light";
+"background_dark" = "Dark";
+"background_gradient" = "Gradient";
+"background_system" = "System";
+"preview_title" = "Preview";
+"preview_subtitle" = "Check switch settings";
+
+// MARK: - High Scores
+"high_scores_title" = "Records";
+"high_scores_subtitle" = "Your best results";
+"no_records_survival" = "No records in survival mode yet";
+"no_records_memory" = "No records in memory mode yet";
+"no_records_reaction" = "No records in reaction mode yet";
+"no_records_general" = "No records yet";
+"empty_records_message" = "Play this mode to set a record!";
+"points" = "points";
+
+// MARK: - Game Instructions
+"goal_title" = "Goal";
+"rules_title" = "Rules";
+"warning_title" = "Warning";
+"tip_title" = "Tip";
+"button_start" = "Start Game";
+"button_back" = "Back";
+
+// MARK: - Survival Mode
+"survival_mode_title" = "Logic Mode";
+"survival_goal" = "Set the correct switch combination!";
+"survival_rules" = "• Red circles show target positions\n• Set switches to correct position\n• You have 30 seconds per level\n• Difficulty increases with each level";
+"survival_warning" = "Time is limited! Solve the logic puzzle in time";
+"survival_tip" = "Think fast and logically!";
+
+// MARK: - Memory Mode
+"memory_mode_title" = "Memory Mode";
+"memory_mode_subtitle" = "Memory Mode - endless game";
+"memory_goal" = "Remember and repeat the sequence!";
+"memory_rules" = "• Remember the sequence of highlighted buttons\n• Repeat it in the same order\n• Each level adds a new button\n• Choose mode: Sequence (4 buttons) or Pattern (9 buttons)";
+"memory_warning" = "One mistake = game over";
+"memory_tip" = "Train your visual memory and concentration!";
+
+// MARK: - Reaction Mode
+"reaction_mode_title" = "Reaction Mode";
+"reaction_goal" = "Quickly tap the highlighted button!";
+"reaction_rules" = "• Blue button lights up randomly\n• Tap it before time runs out\n• Time decreases with each level\n• 7 correct answers = new level";
+"reaction_warning" = "One mistake or miss = game over";
+"reaction_tip" = "Be attentive and fast!";
+
+// MARK: - Game Instructions
+"instructions_remember_sequence" = "Remember the sequence";
+"instructions_remember_pattern" = "Remember the pattern";
+"instructions_remember_with_level" = "Remember the %@!\nLevel %d";
+"instructions_your_turn" = "Your turn!";
+"instructions_repeat_sequence" = "Your turn! Repeat the sequence";
+"instructions_tap_button" = "Tap the highlighted button!";
+"instructions_waiting" = "Waiting for instructions...";
+
+// MARK: - Game Feedback
+"correct" = "Correct!";
+"incorrect" = "Incorrect! Try again.";
+"incorrect_reaction" = "Incorrect! Correct button highlighted in orange";
+"try_again" = "Try again!";
+"not_bad" = "Not bad for a start!";
+"excellent_reaction" = "Excellent reaction!";
+"incredible_speed" = "Incredible speed!";
+"combo" = "COMBO x%d!";
+"level_up" = "LEVEL %d!";
+"excellent_points" = "Excellent! +%d points";
+
+// MARK: - Game Over
+"game_over_title" = "Game Over";
+"game_over_score" = "Your score: %d";
+"game_over_memory_mode_result" = "Level: %d\nScore: %d\n\nYou can be proud of your memory!";
+"reaction_mode_results" = "📊 Results:\n• Level: %d\n• Score: %d\n• Record: %d\n\n%@";
+"game_over_completed" = "You completed all 15 levels of Switch!\n\nYour final score: %d";
+"button_new_game" = "New Game";
+"button_play_again" = "Play Again";
+"button_main_menu" = "Main Menu";
+"button_show_instructions" = "Show Instructions";
+"button_restart" = "Start Over";
+
+// MARK: - Level Instructions
+"remember_sequence_level" = "Remember the sequence!\nLevel %d";
+"remember_pattern_level" = "Remember the pattern!\nLevel %d";
+
+// MARK: - Color Game
+"target_color" = "Target";
+"your_color" = "Your Color";
+
+// MARK: - Launch Screen
+"launch_turn_on_sound" = "Turn on sound";
+
+// MARK: - Level Labels
+"level_1" = "Level 1";
+"level_2" = "Level 2";
+"level_3" = "Level 3";
+"level_4" = "Level 4";
+"level_5" = "Level 5";
+"level_6" = "Level 6";
+"level_7" = "Level 7";
+"level_8" = "Level 8";
+"level_9" = "Level 9";
+"level_10" = "Level 10";
+"level_11" = "Level 11";
+"level_12" = "Level 12";
+"level_13" = "Level 13";
+"level_14" = "Level 14";
+"level_15" = "Level 15"; 

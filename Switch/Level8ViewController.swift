@@ -49,7 +49,7 @@ class Level8ViewController: UIViewController {
         // Настройка метки уровня
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 8"
+        levelLabel.text = LocalizationManager.Levels.level8.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)

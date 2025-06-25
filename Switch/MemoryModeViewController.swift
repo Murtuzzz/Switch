@@ -16,6 +16,7 @@ class MemoryModeViewController: UIViewController {
     private var levelLabel: UILabel!
     private var scoreLabel: UILabel!
     private var instructionsLabel: UILabel!
+    private var bestScoreLabel: UILabel!
     private var progressView: UIProgressView!
     private var modeSwitch: UISegmentedControl!
     
@@ -25,8 +26,8 @@ class MemoryModeViewController: UIViewController {
         
         var title: String {
             switch self {
-            case .sequence: return "Последовательность"
-            case .pattern: return "Паттерн"
+            case .sequence: return LocalizationManager.GameModes.sequence.localized
+            case .pattern: return LocalizationManager.GameModes.pattern.localized
             }
         }
         
@@ -81,14 +82,14 @@ class MemoryModeViewController: UIViewController {
         // Score and Level Labels
         scoreLabel = UILabel()
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.text = "Счет: 0"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: 0)
         scoreLabel.font = .systemFont(ofSize: 20, weight: .bold)
         scoreLabel.textColor = .label
         view.addSubview(scoreLabel)
         
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень: 1"
+        levelLabel.text = LocalizationManager.Level.levelNumber.localized(with: 1)
         levelLabel.font = .systemFont(ofSize: 20, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)
@@ -113,12 +114,21 @@ class MemoryModeViewController: UIViewController {
         // Instructions
         instructionsLabel = UILabel()
         instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        instructionsLabel.text = "Режим Память - бесконечная игра"
+        instructionsLabel.text = LocalizationManager.Instructions.memorySubtitle.localized
         instructionsLabel.font = .systemFont(ofSize: 16, weight: .medium)
         instructionsLabel.textColor = .label
         instructionsLabel.textAlignment = .center
         instructionsLabel.numberOfLines = 0
         view.addSubview(instructionsLabel)
+        
+        // Best Score Label
+        bestScoreLabel = UILabel()
+        bestScoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        bestScoreLabel.text = LocalizationManager.Stats.record.localized(with: getBestScore())
+        bestScoreLabel.font = .systemFont(ofSize: 16, weight: .medium)
+        bestScoreLabel.textColor = .secondaryLabel
+        bestScoreLabel.textAlignment = .center
+        view.addSubview(bestScoreLabel)
         
         setupConstraints()
         createGameButtons()
@@ -148,7 +158,10 @@ class MemoryModeViewController: UIViewController {
             
             instructionsLabel.topAnchor.constraint(equalTo: modeSwitch.bottomAnchor, constant: 16),
             instructionsLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
-            instructionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32)
+            instructionsLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
+            
+            bestScoreLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            bestScoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -259,9 +272,9 @@ class MemoryModeViewController: UIViewController {
         updateProgress()
         updateLabels()
         
-        instructionsLabel.text = "Запомните \(gameMode.title.lowercased())!\nУровень \(currentLevel)"
+        instructionsLabel.text = LocalizationManager.GameMessages.rememberWithLevel.localized(with: gameMode.title.lowercased(), currentLevel)
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             self.playSequence()
         }
     }
@@ -286,8 +299,8 @@ class MemoryModeViewController: UIViewController {
             delay += speed
         }
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + delay + 0.5) {
-            self.instructionsLabel.text = "Ваш ход! Повторите последовательность"
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
+            self.instructionsLabel.text = LocalizationManager.GameMessages.repeatSequence.localized
             self.enableButtons()
         }
     }
@@ -364,7 +377,7 @@ class MemoryModeViewController: UIViewController {
         
         disableButtons()
         
-        instructionsLabel.text = "Отлично! +\(basePoints + levelBonus + modeBonus) очков"
+        instructionsLabel.text = LocalizationManager.GameMessages.excellentPoints.localized(with: basePoints + levelBonus + modeBonus)
         
         // Празднование успеха
         celebrateSuccess()
@@ -549,7 +562,7 @@ class MemoryModeViewController: UIViewController {
     
     private func showComboEffect(combo: Int) {
         let comboLabel = UILabel()
-        comboLabel.text = "КОМБО x\(combo)!"
+        comboLabel.text = LocalizationManager.GameMessages.combo.localized(with: combo)
         comboLabel.font = .systemFont(ofSize: 42, weight: .black)
         comboLabel.textColor = .systemOrange
         comboLabel.textAlignment = .center
@@ -680,26 +693,53 @@ class MemoryModeViewController: UIViewController {
     private func gameOver() {
         disableButtons()
         
-        instructionsLabel.text = "Игра окончена!"
+        instructionsLabel.text = LocalizationManager.GameOver.title.localized + "!"
         
         // Сохраняем рекорд
-        saveHighScore()
+        saveBestScore()
         
         let alert = UIAlertController(
-            title: "Игра окончена",
-            message: "Уровень: \(currentLevel)\nСчет: \(currentScore)\n\nМожете гордиться своей памятью!",
+            title: LocalizationManager.GameOver.title.localized,
+            message: LocalizationManager.GameOver.memoryModeResult.localized(with: currentLevel, currentScore),
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Новая игра", style: .default) { _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.newGame.localized, style: .default) { _ in
             self.startNewGame()
         })
         
-        alert.addAction(UIAlertAction(title: "В главное меню", style: .default) { _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.mainMenu.localized, style: .default) { _ in
             self.dismiss(animated: true)
         })
         
         present(alert, animated: true)
+    }
+    
+    private func getBestScore() -> Int {
+        return UserDefaults.standard.integer(forKey: "MemoryModeHighScore")
+    }
+    
+    private func saveBestScore() {
+        let currentBest = getBestScore()
+        if currentScore > currentBest {
+            UserDefaults.standard.set(currentScore, forKey: "MemoryModeHighScore")
+            UserDefaults.standard.set(currentLevel, forKey: "MemoryModeHighLevel")
+            bestScoreLabel.text = LocalizationManager.Stats.record.localized(with: currentScore)
+        }
+        
+        // Добавляем в список рекордов режима памяти
+        var memoryScores = UserDefaults.standard.array(forKey: "MemoryModeScores") as? [Int] ?? []
+        memoryScores.append(currentScore)
+        // Оставляем только топ-10 рекордов
+        memoryScores = Array(memoryScores.sorted(by: >).prefix(10))
+        UserDefaults.standard.set(memoryScores, forKey: "MemoryModeScores")
+        
+        // Добавляем в общий список рекордов (для совместимости)
+        var scores = UserDefaults.standard.array(forKey: "HighScores") as? [Int] ?? []
+        scores.append(currentScore)
+        scores.sort { $0 > $1 }
+        scores = Array(scores.prefix(10)) // Оставляем топ 10
+        UserDefaults.standard.set(scores, forKey: "HighScores")
     }
     
     private func saveHighScore() {
@@ -727,8 +767,8 @@ class MemoryModeViewController: UIViewController {
     }
     
     private func updateLabels() {
-        scoreLabel.text = "Счет: \(currentScore)"
-        levelLabel.text = "Уровень: \(currentLevel)"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: currentScore)
+        levelLabel.text = LocalizationManager.Level.levelNumber.localized(with: currentLevel)
     }
     
     private func updateProgress() {
@@ -801,7 +841,7 @@ class MemoryModeViewController: UIViewController {
         iconLabel.font = .systemFont(ofSize: 32)
         
         let titleLabel = UILabel()
-        titleLabel.text = "Режим Память"
+        titleLabel.text = LocalizationManager.Instructions.memoryTitle.localized
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = R.Colors.green
         
@@ -811,34 +851,29 @@ class MemoryModeViewController: UIViewController {
         // Описание цели
         let goalView = createInfoBlock(
             icon: "🎯",
-            title: "Цель",
-            description: "Запомните и повторите последовательность!"
+            title: LocalizationManager.Instructions.goalTitle.localized,
+            description: LocalizationManager.Instructions.memoryGoal.localized
         )
         
         // Правила
         let rulesView = createInfoBlock(
             icon: "📋",
-            title: "Правила",
-            description: """
-            • Запомните последовательность подсвеченных кнопок
-            • Повторите её в том же порядке
-            • Каждый уровень добавляет новую кнопку
-            • Выберите режим: Последовательность (4 кнопки) или Паттерн (9 кнопок)
-            """
+            title: LocalizationManager.Instructions.rulesTitle.localized,
+            description: LocalizationManager.Instructions.memoryRules.localized
         )
         
         // Предупреждение
         let warningView = createInfoBlock(
             icon: "⚠️",
-            title: "Внимание",
-            description: "Одна ошибка = конец игры"
+            title: LocalizationManager.Instructions.warningTitle.localized,
+            description: LocalizationManager.Instructions.memoryWarning.localized
         )
         
         // Совет
         let tipView = createInfoBlock(
             icon: "💡",
-            title: "Совет",
-            description: "Тренируйте зрительную память и концентрацию!"
+            title: LocalizationManager.Instructions.tipTitle.localized,
+            description: LocalizationManager.Instructions.memoryTip.localized
         )
         
         // Кнопки
@@ -848,10 +883,10 @@ class MemoryModeViewController: UIViewController {
         buttonStackView.spacing = 16
         buttonStackView.distribution = .fillEqually
         
-        let startButton = createModernButton(title: "Начать игру", isPrimary: true)
+        let startButton = createModernButton(title: LocalizationManager.Instructions.buttonStart.localized, isPrimary: true)
         startButton.addTarget(self, action: #selector(instructionsStartButtonTapped), for: .touchUpInside)
         
-        let backButton = createModernButton(title: "Назад", isPrimary: false)
+        let backButton = createModernButton(title: LocalizationManager.Instructions.buttonBack.localized, isPrimary: false)
         backButton.addTarget(self, action: #selector(instructionsBackButtonTapped), for: .touchUpInside)
         
         buttonStackView.addArrangedSubview(backButton)

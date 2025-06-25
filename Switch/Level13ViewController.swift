@@ -48,14 +48,14 @@ class Level13ViewController: UIViewController {
         
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 13"
+        levelLabel.text = LocalizationManager.Levels.level13.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)
         
         instructionsLabel = UILabel()
         instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        instructionsLabel.text = "Запомните последовательность"
+        instructionsLabel.text = LocalizationManager.GameMessages.rememberSequence.localized
         instructionsLabel.font = .systemFont(ofSize: 18, weight: .medium)
         instructionsLabel.textColor = .label
         instructionsLabel.textAlignment = .center
@@ -144,7 +144,7 @@ class Level13ViewController: UIViewController {
     }
     
     private func startNewLevel() {
-        instructionsLabel.text = "Запомните последовательность!\nУровень \(currentLevel)"
+        instructionsLabel.text = LocalizationManager.LevelInstructions.rememberSequenceLevel.localized(with: currentLevel)
         playerSequence = []
         sequence = generateSequence(length: currentLevel + 2)
         disableButtons()
@@ -174,7 +174,7 @@ class Level13ViewController: UIViewController {
         }
         
         DispatchQueue.main.asyncAfter(deadline: .now() + delay + 0.5) {
-            self.instructionsLabel.text = "Ваш ход!"
+            self.instructionsLabel.text = LocalizationManager.GameMessages.yourTurn.localized
             self.enableButtons()
         }
     }
@@ -235,7 +235,7 @@ class Level13ViewController: UIViewController {
     private func checkPlayerInput() {
         // Проверяем, что sequence не пуст и индекс не выходит за границы
         guard !sequence.isEmpty, playerSequence.count <= sequence.count else {
-            instructionsLabel.text = "Неверно! Попробуйте снова."
+            instructionsLabel.text = LocalizationManager.GameMessages.incorrect.localized
             disableButtons()
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                 self.resetLevel()
@@ -245,7 +245,7 @@ class Level13ViewController: UIViewController {
         
         for i in 0..<playerSequence.count {
             if i >= sequence.count || playerSequence[i] != sequence[i] {
-                instructionsLabel.text = "Неверно! Попробуйте снова."
+                instructionsLabel.text = LocalizationManager.GameMessages.incorrect.localized
                 updateCircleIndicators(isCorrect: false, at: i)
                 disableButtons()
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
@@ -258,7 +258,7 @@ class Level13ViewController: UIViewController {
         updateCircleIndicators(isCorrect: true, at: playerSequence.count - 1)
         
         if playerSequence.count == sequence.count {
-            instructionsLabel.text = "Верно!"
+            instructionsLabel.text = LocalizationManager.GameMessages.correct.localized
             disableButtons()
             currentLevel += 1
             updateProgress()
@@ -307,7 +307,7 @@ class Level13ViewController: UIViewController {
         sequence = []
         lightButtons.forEach { $0.backgroundColor = .lightGray }
         circleIndicators.forEach { $0.backgroundColor = .systemRed }
-        instructionsLabel.text = "Запомните последовательность!\nУровень \(currentLevel)"
+                    instructionsLabel.text = LocalizationManager.LevelInstructions.rememberSequenceLevel.localized(with: currentLevel)
         updateProgress()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             self.startNewLevel()

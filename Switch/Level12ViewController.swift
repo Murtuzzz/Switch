@@ -58,7 +58,7 @@ class Level12ViewController: UIViewController {
         
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 12"
+        levelLabel.text = LocalizationManager.Levels.level12.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)
@@ -133,7 +133,7 @@ class Level12ViewController: UIViewController {
         colorViewsStack.addArrangedSubview(currentColorView)
         
         let targetLabel = UILabel()
-        targetLabel.text = "Цель"
+        targetLabel.text = LocalizationManager.ColorGame.target.localized
         targetLabel.font = .systemFont(ofSize: 14, weight: .medium)
         targetLabel.textColor = .label
         targetLabel.textAlignment = .center
@@ -141,7 +141,7 @@ class Level12ViewController: UIViewController {
         targetColorView.addSubview(targetLabel)
         
         let currentLabel = UILabel()
-        currentLabel.text = "Ваш цвет"
+        currentLabel.text = LocalizationManager.ColorGame.yourColor.localized
         currentLabel.font = .systemFont(ofSize: 14, weight: .medium)
         currentLabel.textColor = .label
         currentLabel.textAlignment = .center

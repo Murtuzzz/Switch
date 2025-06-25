@@ -109,7 +109,7 @@ final class MainViewController: UIViewController {
     private let subtitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Логическая головоломка"
+        label.text = LocalizationManager.MainScreen.subtitle.localized
         label.font = .systemFont(ofSize: 20, weight: .medium)
         label.textColor = UIColor(red: 120/255, green: 120/255, blue: 120/255, alpha: 1.0)
         label.alpha = 0
@@ -120,7 +120,7 @@ final class MainViewController: UIViewController {
     private let startButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("🎮 Начать игру", for: .normal)
+        button.setTitle(LocalizationManager.MainScreen.startGame.localized, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 20, weight: .semibold)
         button.tintColor = .white
         button.layer.cornerRadius = 28
@@ -139,7 +139,7 @@ final class MainViewController: UIViewController {
     private let survivalButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("⚡ Режим Логика", for: .normal)
+        button.setTitle(LocalizationManager.MainScreen.survivalMode.localized, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         button.layer.cornerRadius = 28
         button.alpha = 0
@@ -158,7 +158,7 @@ final class MainViewController: UIViewController {
     private let memoryButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("🧠 Режим Память", for: .normal)
+        button.setTitle(LocalizationManager.MainScreen.memoryMode.localized, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         button.layer.cornerRadius = 28
         button.alpha = 0
@@ -177,7 +177,7 @@ final class MainViewController: UIViewController {
     private let reactionButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("🚀 Режим Реакция", for: .normal)
+        button.setTitle(LocalizationManager.MainScreen.reactionMode.localized, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .medium)
         button.layer.cornerRadius = 28
         button.alpha = 0

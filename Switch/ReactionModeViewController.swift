@@ -86,7 +86,7 @@ class ReactionModeViewController: UIViewController {
         // Level label
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Реакция - Уровень 1"
+        levelLabel.text = LocalizationManager.Level.levelReaction.localized(with: 1)
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         levelLabel.textAlignment = .center
@@ -95,7 +95,7 @@ class ReactionModeViewController: UIViewController {
         // Instructions label
         instructionsLabel = UILabel()
         instructionsLabel.translatesAutoresizingMaskIntoConstraints = false
-        instructionsLabel.text = "Ожидание инструкций..."
+        instructionsLabel.text = LocalizationManager.GameMessages.waiting.localized
         instructionsLabel.font = .systemFont(ofSize: 16, weight: .medium)
         instructionsLabel.textColor = .secondaryLabel
         instructionsLabel.textAlignment = .center
@@ -105,7 +105,7 @@ class ReactionModeViewController: UIViewController {
         // Score label
         scoreLabel = UILabel()
         scoreLabel.translatesAutoresizingMaskIntoConstraints = false
-        scoreLabel.text = "Счет: 0"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: 0)
         scoreLabel.font = .systemFont(ofSize: 18, weight: .semibold)
         scoreLabel.textColor = .label
         view.addSubview(scoreLabel)
@@ -113,7 +113,7 @@ class ReactionModeViewController: UIViewController {
         // Timer label
         timerLabel = UILabel()
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
-        timerLabel.text = "Время: 1.50"
+        timerLabel.text = LocalizationManager.Stats.timeSeconds.localized(with: 1.50)
         timerLabel.font = .systemFont(ofSize: 18, weight: .semibold)
         timerLabel.textColor = .label
         view.addSubview(timerLabel)
@@ -247,7 +247,7 @@ class ReactionModeViewController: UIViewController {
         iconLabel.font = .systemFont(ofSize: 32)
         
         let titleLabel = UILabel()
-        titleLabel.text = "Режим Реакция"
+        titleLabel.text = LocalizationManager.Instructions.reactionTitle.localized
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = R.Colors.green
         
@@ -257,34 +257,29 @@ class ReactionModeViewController: UIViewController {
         // Описание цели
         let goalView = createInfoBlock(
             icon: "🎯",
-            title: "Цель",
-            description: "Быстро нажимайте на подсвеченную кнопку!"
+            title: LocalizationManager.Instructions.goalTitle.localized,
+            description: LocalizationManager.Instructions.reactionGoal.localized
         )
         
         // Правила
         let rulesView = createInfoBlock(
             icon: "📋",
-            title: "Правила",
-            description: """
-            • Синяя кнопка загорается случайно
-            • Нажмите на неё до истечения времени
-            • Время уменьшается с каждым уровнем
-            • 7 правильных ответов = новый уровень
-            """
+            title: LocalizationManager.Instructions.rulesTitle.localized,
+            description: LocalizationManager.Instructions.reactionRules.localized
         )
         
         // Предупреждение
         let warningView = createInfoBlock(
             icon: "⚠️",
-            title: "Внимание",
-            description: "Одна ошибка или пропуск = конец игры"
+            title: LocalizationManager.Instructions.warningTitle.localized,
+            description: LocalizationManager.Instructions.reactionWarning.localized
         )
         
         // Совет
         let tipView = createInfoBlock(
             icon: "💡",
-            title: "Совет",
-            description: "Будьте внимательны и быстры!"
+            title: LocalizationManager.Instructions.tipTitle.localized,
+            description: LocalizationManager.Instructions.reactionTip.localized
         )
         
         // Кнопки
@@ -294,10 +289,10 @@ class ReactionModeViewController: UIViewController {
         buttonStackView.spacing = 16
         buttonStackView.distribution = .fillEqually
         
-        let startButton = createModernButton(title: "Начать игру", isPrimary: true)
+        let startButton = createModernButton(title: LocalizationManager.Instructions.buttonStart.localized, isPrimary: true)
         startButton.addTarget(self, action: #selector(instructionsStartButtonTapped), for: .touchUpInside)
         
-        let backButton = createModernButton(title: "Назад", isPrimary: false)
+        let backButton = createModernButton(title: LocalizationManager.Instructions.buttonBack.localized, isPrimary: false)
         backButton.addTarget(self, action: #selector(instructionsBackButtonTapped), for: .touchUpInside)
         
         buttonStackView.addArrangedSubview(backButton)
@@ -475,7 +470,7 @@ class ReactionModeViewController: UIViewController {
         currentLevel = 1
         consecutiveSuccess = 0
         initialTimeLimit = 1.5
-        instructionsLabel.text = "Нажмите на подсвеченную кнопку!"
+        instructionsLabel.text = LocalizationManager.GameMessages.tapButton.localized
         updateLabels()
         startNewRound()
     }
@@ -586,7 +581,7 @@ class ReactionModeViewController: UIViewController {
     
     private func roundFailed() {
         consecutiveSuccess = 0
-        instructionsLabel.text = "Неверно! Правильная кнопка подсвечена оранжевым"
+                    instructionsLabel.text = LocalizationManager.GameMessages.incorrectReaction.localized
         
         // Show correct button briefly
         if let activeTag = activeLightButtonTag {
@@ -606,37 +601,30 @@ class ReactionModeViewController: UIViewController {
         
         let performanceMessage: String
         if currentLevel <= 2 {
-            performanceMessage = "Попробуйте ещё раз!"
+            performanceMessage = LocalizationManager.GameMessages.tryAgain.localized
         } else if currentLevel <= 5 {
-            performanceMessage = "Неплохо для начала!"
+            performanceMessage = LocalizationManager.GameMessages.notBad.localized
         } else if currentLevel <= 10 {
-            performanceMessage = "Отличная реакция!"
+            performanceMessage = LocalizationManager.GameMessages.excellentReaction.localized
         } else {
-            performanceMessage = "Невероятная скорость!"
+            performanceMessage = LocalizationManager.GameMessages.incredibleSpeed.localized
         }
         
         let alert = UIAlertController(
             title: title,
-            message: """
-            📊 Результаты:
-            • Уровень: \(currentLevel)
-            • Счет: \(currentScore)
-            • Рекорд: \(getBestScore())
-            
-            \(performanceMessage)
-            """,
+            message: LocalizationManager.GameOver.reactionResults.localized(with: currentLevel, currentScore, getBestScore(), performanceMessage),
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Играть снова", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.playAgain.localized, style: .default) { [weak self] _ in
             self?.startGame()
         })
         
-        alert.addAction(UIAlertAction(title: "Показать инструкции", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.showInstructions.localized, style: .default) { [weak self] _ in
             self?.showInstructionsAlert()
         })
         
-        alert.addAction(UIAlertAction(title: "Главное меню", style: .cancel) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.mainMenu.localized, style: .cancel) { [weak self] _ in
             self?.dismiss(animated: true)
         })
         
@@ -717,7 +705,7 @@ class ReactionModeViewController: UIViewController {
     
     private func showLevelUpEffect() {
         let levelUpLabel = UILabel()
-        levelUpLabel.text = "УРОВЕНЬ \(currentLevel)!"
+        levelUpLabel.text = LocalizationManager.GameMessages.levelUp.localized(with: currentLevel)
         levelUpLabel.font = .systemFont(ofSize: 32, weight: .bold)
         levelUpLabel.textColor = R.Colors.green
         levelUpLabel.textAlignment = .center
@@ -746,14 +734,14 @@ class ReactionModeViewController: UIViewController {
     
     // MARK: - Helper Methods
     private func updateLabels() {
-        scoreLabel.text = "Счет: \(currentScore)"
-        levelLabel.text = "Реакция - Уровень \(currentLevel)"
+        scoreLabel.text = LocalizationManager.Stats.score.localized(with: currentScore)
+        levelLabel.text = LocalizationManager.Level.levelReaction.localized(with: currentLevel)
         timerLabel.textColor = .label
         updateProgress()
     }
     
     private func updateTimerLabel() {
-        timerLabel.text = String(format: "Время: %.2f", max(0, timeRemaining))
+        timerLabel.text = LocalizationManager.Stats.timeSeconds.localized(with: max(0, timeRemaining))
     }
     
     private func updateProgress() {
@@ -775,7 +763,7 @@ class ReactionModeViewController: UIViewController {
         let currentBest = getBestScore()
         if currentScore > currentBest {
             UserDefaults.standard.set(currentScore, forKey: "ReactionModeHighScore")
-            bestScoreLabel.text = "Рекорд: \(currentScore)"
+            bestScoreLabel.text = LocalizationManager.Stats.record.localized(with: currentScore)
         }
         
         // Добавляем в список рекордов режима реакции

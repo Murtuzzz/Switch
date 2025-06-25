@@ -112,7 +112,7 @@ class Level2ViewController: UIViewController {
         // Настройка метки уровня
         levelLabel = UILabel()
         levelLabel.translatesAutoresizingMaskIntoConstraints = false
-        levelLabel.text = "Уровень 2"
+        levelLabel.text = LocalizationManager.Levels.level2.localized
         levelLabel.font = .systemFont(ofSize: 24, weight: .bold)
         levelLabel.textColor = .label
         view.addSubview(levelLabel)

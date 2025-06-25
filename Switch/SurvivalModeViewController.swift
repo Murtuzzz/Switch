@@ -45,7 +45,7 @@ class SurvivalModeViewController: UIViewController {
     private let scoreLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Счет: 0"
+        label.text = LocalizationManager.Stats.score.localized(with: 0)
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = .label
         return label
@@ -54,7 +54,7 @@ class SurvivalModeViewController: UIViewController {
     private let timerLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Время: 30"
+        label.text = LocalizationManager.Stats.time.localized(with: 30)
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = .label
         return label
@@ -63,9 +63,18 @@ class SurvivalModeViewController: UIViewController {
     private let levelLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Уровень: 1"
+        label.text = LocalizationManager.Level.levelLogic.localized(with: 1)
         label.font = .systemFont(ofSize: 24, weight: .bold)
         label.textColor = .label
+        return label
+    }()
+    
+    private let bestScoreLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.font = .systemFont(ofSize: 16, weight: .medium)
+        label.textColor = .secondaryLabel
+        label.textAlignment = .center
         return label
     }()
     
@@ -160,6 +169,10 @@ class SurvivalModeViewController: UIViewController {
         view.addSubview(scoreLabel)
         view.addSubview(timerLabel)
         view.addSubview(levelLabel)
+        view.addSubview(bestScoreLabel)
+        
+        // Устанавливаем текст рекорда
+        bestScoreLabel.text = LocalizationManager.Stats.record.localized(with: getBestScore())
         
         NSLayoutConstraint.activate([
             containerView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -179,7 +192,10 @@ class SurvivalModeViewController: UIViewController {
             progressView.topAnchor.constraint(equalTo: scoreLabel.bottomAnchor, constant: 16),
             progressView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 32),
             progressView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -32),
-            progressView.heightAnchor.constraint(equalToConstant: 8)
+            progressView.heightAnchor.constraint(equalToConstant: 8),
+            
+            bestScoreLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            bestScoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
     
@@ -256,8 +272,8 @@ class SurvivalModeViewController: UIViewController {
             self.createSwitches(count: switchCount)
             
             // Обновляем метки
-            self.levelLabel.text = "Уровень: \(self.currentLevel)"
-            self.scoreLabel.text = "Счет: \(self.currentScore)"
+            self.levelLabel.text = LocalizationManager.Level.levelLogic.localized(with: self.currentLevel)
+            self.scoreLabel.text = LocalizationManager.Stats.score.localized(with: self.currentScore)
             
             // Сбрасываем прогресс
             self.updateProgress(successCount: 0)
@@ -546,11 +562,11 @@ class SurvivalModeViewController: UIViewController {
     private func animateScoreUpdate() {
         // Анимация увеличения счета
         UIView.transition(with: scoreLabel, duration: 0.3, options: .transitionCrossDissolve) {
-            self.scoreLabel.text = "Счет: \(self.currentScore)"
+            self.scoreLabel.text = LocalizationManager.Stats.score.localized(with: self.currentScore)
         }
         
         UIView.transition(with: timerLabel, duration: 0.3, options: .transitionCrossDissolve) {
-            self.timerLabel.text = "Время: \(self.timeRemaining)"
+            self.timerLabel.text = LocalizationManager.Stats.time.localized(with: self.timeRemaining)
         }
         
         // Пульсация счета
@@ -615,7 +631,7 @@ class SurvivalModeViewController: UIViewController {
         let color: UIColor = timeRemaining <= 10 ? .systemRed : .label
         
         UIView.transition(with: timerLabel, duration: 0.2, options: .transitionCrossDissolve) {
-            self.timerLabel.text = "Время: \(self.timeRemaining)"
+            self.timerLabel.text = LocalizationManager.Stats.time.localized(with: self.timeRemaining)
             self.timerLabel.textColor = color
         }
         
@@ -689,19 +705,19 @@ class SurvivalModeViewController: UIViewController {
         timer = nil
         
         // Сохраняем рекорд для режима выживания
-        saveSurvivalModeScore()
+        saveBestScore()
         
         let alert = UIAlertController(
-            title: "Игра окончена",
-            message: "Ваш счет: \(currentScore)",
+            title: LocalizationManager.GameOver.title.localized,
+            message: LocalizationManager.GameOver.score.localized(with: currentScore),
             preferredStyle: .alert
         )
         
-        alert.addAction(UIAlertAction(title: "Новая игра", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.newGame.localized, style: .default) { [weak self] _ in
             self?.resetGame()
         })
         
-        alert.addAction(UIAlertAction(title: "В главное меню", style: .default) { [weak self] _ in
+        alert.addAction(UIAlertAction(title: LocalizationManager.GameOver.mainMenu.localized, style: .default) { [weak self] _ in
             self?.dismiss(animated: true)
         })
         
@@ -723,6 +739,25 @@ class SurvivalModeViewController: UIViewController {
         
         generateNewLevel()
         startTimer()
+    }
+    
+    private func getBestScore() -> Int {
+        return UserDefaults.standard.integer(forKey: "SurvivalModeHighScore")
+    }
+    
+    private func saveBestScore() {
+        let currentBest = getBestScore()
+        if currentScore > currentBest {
+            UserDefaults.standard.set(currentScore, forKey: "SurvivalModeHighScore")
+            bestScoreLabel.text = LocalizationManager.Stats.record.localized(with: currentScore)
+        }
+        
+        // Добавляем в список рекордов режима выживания
+        var survivalScores = UserDefaults.standard.array(forKey: "SurvivalModeScores") as? [Int] ?? []
+        survivalScores.append(currentScore)
+        // Оставляем только топ-10 рекордов
+        survivalScores = Array(survivalScores.sorted(by: >).prefix(10))
+        UserDefaults.standard.set(survivalScores, forKey: "SurvivalModeScores")
     }
     
     private func saveSurvivalModeScore() {
@@ -807,7 +842,7 @@ class SurvivalModeViewController: UIViewController {
         iconLabel.font = .systemFont(ofSize: 32)
         
         let titleLabel = UILabel()
-        titleLabel.text = "Режим Логика"
+        titleLabel.text = LocalizationManager.Instructions.survivalTitle.localized
         titleLabel.font = .systemFont(ofSize: 28, weight: .bold)
         titleLabel.textColor = R.Colors.green
         
@@ -817,34 +852,29 @@ class SurvivalModeViewController: UIViewController {
         // Описание цели
         let goalView = createInfoBlock(
             icon: "🎯",
-            title: "Цель",
-            description: "Установите правильную комбинацию переключателей!"
+            title: LocalizationManager.Instructions.goalTitle.localized,
+            description: LocalizationManager.Instructions.survivalGoal.localized
         )
         
         // Правила
         let rulesView = createInfoBlock(
             icon: "📋",
-            title: "Правила",
-            description: """
-            • Красные кружки показывают нужные позиции
-            • Установите переключатели в правильное положение
-            • У вас есть 30 секунд на уровень
-            • Сложность увеличивается с каждым уровнем
-            """
+            title: LocalizationManager.Instructions.rulesTitle.localized,
+            description: LocalizationManager.Instructions.survivalRules.localized
         )
         
         // Предупреждение
         let warningView = createInfoBlock(
             icon: "⚠️",
-            title: "Внимание",
-            description: "Время ограничено! Успейте решить логическую задачу"
+            title: LocalizationManager.Instructions.warningTitle.localized,
+            description: LocalizationManager.Instructions.survivalWarning.localized
         )
         
         // Совет
         let tipView = createInfoBlock(
             icon: "💡",
-            title: "Совет",
-            description: "Думайте быстро и логично!"
+            title: LocalizationManager.Instructions.tipTitle.localized,
+            description: LocalizationManager.Instructions.survivalTip.localized
         )
         
         // Кнопки
@@ -854,10 +884,10 @@ class SurvivalModeViewController: UIViewController {
         buttonStackView.spacing = 16
         buttonStackView.distribution = .fillEqually
         
-        let startButton = createModernButton(title: "Начать игру", isPrimary: true)
+        let startButton = createModernButton(title: LocalizationManager.Instructions.buttonStart.localized, isPrimary: true)
         startButton.addTarget(self, action: #selector(instructionsStartButtonTapped), for: .touchUpInside)
         
-        let backButton = createModernButton(title: "Назад", isPrimary: false)
+        let backButton = createModernButton(title: LocalizationManager.Instructions.buttonBack.localized, isPrimary: false)
         backButton.addTarget(self, action: #selector(instructionsBackButtonTapped), for: .touchUpInside)
         
         buttonStackView.addArrangedSubview(backButton)
